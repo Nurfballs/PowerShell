@@ -23,13 +23,14 @@
                     $MACAddress = $Network.MACAddress
         
                     $objOutput = New-Object PSObject
+                    $objOutput | Add-Member -MemberType NoteProperty -Name Computer -Value $Computer.ToUpper()
                     $objOutput | Add-Member -MemberType NoteProperty -Name IPAddress -Value $IPAddress
                     $objOutput | Add-Member -MemberType NoteProperty -Name SubnetMask -Value $SubnetMask
                     $objOutput | Add-Member -MemberType NoteProperty -Name DefaultGateway -Value $DefaultGateway
                     $objOutput | Add-Member -MemberType NoteProperty -Name IsDHCPEnabled -Value $IsDHCPEnabled
                     $objOutput | Add-Member -MemberType NoteProperty -Name DNSServers -Value $DNSServers
                     $objOutput | Add-Member -MemberType NoteProperty -Name MACAddress -Value $MACAddress
-                    $objOutput | Export-Csv -Path C:\Hotline\$Computer.csv -Append -NoTypeInformation
+                    $objOutput | Export-Csv -Path C:\Hotline\NetworkInfo.csv -Append -NoTypeInformation
                     $objOutput
                 }
             }
