@@ -6,7 +6,7 @@ Import-Module ActiveDirectory
 $DetailedUsers = @()
 
 # ' Get a list of all enabled user accounts
-$users = Get-ADUser -Filter {Enabled -eq "True"} -Properties SAMAccountName, GivenName, Surname, Title, MobilePhone, StreetAddress, City, State, PostalCode, Fax 
+$users = Get-ADUser -Filter {Enabled -eq "True"} -Properties SAMAccountName, GivenName, Surname, Title, MobilePhone, StreetAddress, City, State, PostalCode, Fax, OfficePhone 
 
 ForEach ($user in $users)
 {
@@ -22,6 +22,7 @@ ForEach ($user in $users)
         'State' = $user.state
         'PostalCode' = $user.PostalCode
         'Fax' = $user.fax
+        'OfficePhone' = $user.OfficePhone
     } 
     
     $DetailedUsers += New-Object -TypeName PSObject -Property $hash
@@ -32,6 +33,6 @@ ForEach ($user in $users)
 }
 
 # Export to CSV
- $DetailedUsers | Select-Object SAMAccountName, GivenName, Surname, Title, MobilePhone, StreetAddress, City, State, PostalCode, Fax  | Sort-Object Surname | Export-Csv C:\Hotline\280114_UserExport.csv -NoTypeInformation
+ $DetailedUsers | Select-Object SAMAccountName, GivenName, Surname, Title, MobilePhone, StreetAddress, City, State, PostalCode, Fax, OfficePhone  | Sort-Object Surname | Export-Csv C:\Hotline\280114_UserExport.csv -NoTypeInformation
 
 
