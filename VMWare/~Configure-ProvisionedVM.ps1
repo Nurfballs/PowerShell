@@ -90,6 +90,12 @@ Write-Output "Renaming local administrator to 'hotadmin'"
 $script = "(Get-WMIObject -Query ""SELECT * FROM Win32_UserAccount WHERE Name='Administrator'"").Rename('hotadmin')"
 Invoke-VMScript -ScriptText $script -vm $VM -GuestCredential $PSCred > $null
 
+#
+# = Disable UAC =
+#
+Write-Output "Disabling UAC ... "
+Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\" -Name "EnableLUA" -Value 0
+
 
 # ====================================================================
 # = Reboot VM =
