@@ -22,6 +22,16 @@ Catch
     Exit
 }
 
+# Check PowerCLI Build build
+# PowerCLI 5.5 Relase 2 = Build 1649237
+Write-Verbose "Checking VMware PowerCLI version..."
+If ((Get-PowerCLIVersion | Select-Object -ExpandProperty Build) -lt 1649237) { Write-Error "Minimum VMware PowerCLI version not met. Upgrade to PowerCLI 5.5 Release 2 or higher"; Exit }
+
+
+# Make sure ovftool is installed.
+Write-Verbose "Checking for ovftool ..."
+if ((Test-Path 'C:\Program Files\VMware\VMware OVF Tool\ovftool.exe') -eq $False) { Write-Error "VMWare Open Virtualization Tool (ovftool.exe) not installed. Download: https://developercenter.vmware.com/web/dp/tool/ovf"; Exit }
+
 
 # Connect to VCenter
 Try
@@ -36,26 +46,16 @@ Catch
 }
 
 
-
-# Make sure ovftool is installed.
-Write-Verbose "Checking for ovftool ..."
-if ((Test-Path 'C:\Program Files\VMware\VMware OVF Tool\ovftool.exe') -eq $False) { Write-Error "VMWare Open Virtualization Tool (ovftool.exe) not installed. Download: https://developercenter.vmware.com/web/dp/tool/ovf"; Exit }
-
 # Make sure a tag for the CustomerID exits.
-Write-Verbose "Checking for CustomerID in VMware ... "
+Write-Verbose "Checking for CustomerID tag in VMware ... "
 Try { Get-Tag -Name $CustomerID -ErrorAction Stop }
 Catch [System.Management.Automation.ActionPreferenceStopException] {
-    Write-Error "No tag for $CustomerID exists in vSphere."
+    
+    # Create a new tag if it doesnt exist
+    Write-Verbose "No tag for $CustomerID exists in vSphere."
+    Write-Verbose "Creating new customer tag ..."
 
-    # Get user's email address from AD
-    Write-Verbose "Gathering email address from Active Directory ..."
-    $searcher = [adsisearcher]"(samaccountname=$env:USERNAME)"
-    $emailaddr = $searcher.FindOne().Properties.mail
-
-    # Send user a failure email
-    Write-Verbose "Sending email ..."
-    Send-MailMessage -From 'vmware@hotlineit.com' -To $emailaddr -Subject "Customer Provisioning Falure - $CustomerID" -BodyAsHtml "Provisioning of customer $CustomerID failed because no Tag for $CustomerID exists in vSphere." -SmtpServer 'mx5.hotline.net.au'
-    Exit;
+    New-Tag -Name $CustomerID -Category "CustomerID" -Description $CustomerID
 }
 
 # Create new distributed port group on the distributed switch
