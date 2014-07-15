@@ -10,13 +10,13 @@ param(
     
     [Parameter(Mandatory=$True, HelpMessage="Name of the hosting plan for the virtual machine. If Custom is selected, -VMMemoryGB and -VMNumCPU must be specified. (Standard|Professional|Custom)")]
     [ValidateSet("Standard","Professional","Custom")]
-    [Alas('Plan')]
+    [Alias('Plan')]
     [string]$VMHostingPlan,
 
     [Parameter(HelpMessage="The amount of memory in GB to assign to the virtual machine.")]
     [int64]$VMMemoryGB,
 
-    [Paremeter(HelpMessage="The number of single core virtual CPUs to assign to the virtual machine.")]
+    [Parameter(HelpMessage="The number of single core virtual CPUs to assign to the virtual machine.")]
     [int32]$VMNumCPU
     )
 
@@ -78,8 +78,8 @@ BEGIN {
 
     # Gather information from VMWare
     $Folder = Get-Folder -Name $CustomerID
-    $datastorecluster = Get-DatastoreCluster -Name "VNX-SAS Cluster"
-    $vm_template = Get-Template -Name "TEMPL_WindowsSeverStandard2012R2"
+    $datastore = Get-Datastore -Name "EMC VNX"
+    $vm_template = Get-Template -Name "TEMPL_WindowsServerStandard2012R2"
     $ResourcePool = Get-ResourcePool -Name $CustomerID
     $OSCustomSpec = Get-OSCustomizationSpec -Name "Windows Server 2012"
     $dvPortGroup = Get-VDPortgroup -Name "Hosted Customer - $CustomerID"
@@ -90,7 +90,7 @@ PROCESS {
 
     # Create the VM
     Write-Output "Creating virtual machine $VMName"
-    $VM = New-VM -Name $VMName -ResourcePool $ResourcePool -Template $vm_template  -OSCustomizationSpec $OSCustomSpec  -Location $Folder -datastore "VNX NL-SAS"  #-Whatif #-NetworkName "Hosted Customer - $CustomerID" -WhatIf
+    $VM = New-VM -Name $VMName -ResourcePool $ResourcePool -Template $vm_template  -OSCustomizationSpec $OSCustomSpec  -Location $Folder -datastore $datastore  #-Whatif #-NetworkName "Hosted Customer - $CustomerID" -WhatIf
 
     # Assign Tag
     Write-Output "Assigning customer tag"

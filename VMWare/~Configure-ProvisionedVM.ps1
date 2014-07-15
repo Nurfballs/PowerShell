@@ -4,7 +4,7 @@ Param(
     [Vmware.VIMAutomation.ViCore.Impl.V1.Inventory.VirtualMachineImpl]$VM
     )
 
-$GuestUsername = "Administrator"
+$GuestUsername = "hotadmin"
 $GuestPassword = ConvertTo-SecureString "Hotline68+1" -AsPlainText -Force
 $PSCred = New-Object System.Management.Automation.PSCredential($GuestUsername,$GuestPassword)
 
@@ -81,7 +81,7 @@ $script = "([adsi]""WinNT://localhost/Administrator"").SetPassword(""$NewAdminPa
 Invoke-VMScript -ScriptText $script -vm $VM -GuestCredential $PSCred > $null
 
 # Update PSCreds
-$GuestUsername = "Administrator"
+# $GuestUsername = "Administrator"
 $GuestPassword = ConvertTo-SecureString $NewAdminPassword -AsPlainText -Force 
 $PSCred = New-Object System.Management.Automation.PSCredential($GuestUsername,$GuestPassword)
 
