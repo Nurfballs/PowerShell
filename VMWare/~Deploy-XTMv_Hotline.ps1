@@ -53,6 +53,11 @@ if ((Test-Path 'C:\Program Files\VMware\VMware OVF Tool\ovftool.exe') -eq $False
 #  Description: The netmask or prefix for this interface. Leave blank if DHCP is
  #              desired. 
 
-$arglist =  "--acceptAllEulas --datastore=""EMC VNX"" --vmFolder=""Hosted Customers/$CustomerID"" --name=""XTMv"" --net:""Network 0=dvPortGroup-Hotline IT - Public"" --net:""Network 1=Hosted Customer - $CustomerID"" http://cdn.watchguard.com/SoftwareCenter/Files/XTM/11_8_3_U1/xtmv_11_8_3_U1.ova vi://vc.hotline.net.au/PowerTel%20CoLocation/host/VMWare%20Cluster/Resources/Hosted%20Customers/$CustomerID"
+
+## NOTES ##
+# Username for SSO EG: casey.mullineaux@corp.hotlineit.com
+
+
+$arglist =  "--acceptAllEulas --datastore=""EMC VNX"" --vmFolder=""Hosted Customers/$CustomerID"" --name=""FW-DBA-COLO"" --net:""Network 0=Hotline IT - Public Network"" --net:""Network 1=Hosted Customer - $CustomerID"" http://cdn.watchguard.com/SoftwareCenter/Files/XTM/11_9_1/xtmv_11_9_1.ova vi://vc.hotline.net.au/PowerTel%20CoLocation/host/VMWare%20Cluster/Resources/Hosted%20Customers/$CustomerID"
 Start-Process 'C:\Program Files\VMware\VMware OVF Tool\ovftool.exe' -ArgumentList $arglist
 

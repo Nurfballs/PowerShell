@@ -80,7 +80,7 @@ New-TagAssignment -Tag $CustomerID -Entity $Folder > $Null
 # - eth0 (External): Hotline IT - Public network
 # - eth1 (Trusted): Hosted Customer network
 Write-Output "Deploying Watchguard XTMv ... "
-$arglist =  "--acceptAllEulas --datastore=""EMC VNX"" --vmFolder=""Hosted Customers/$CustomerID"" --name=""XTMv"" --net:""Network 0=Hotline IT - Public Network"" --net:""Network 1=Hosted Customer - $CustomerID"" http://cdn.watchguard.com/SoftwareCenter/Files/XTM/11_8_1/xtmv_11_8_1.ova vi://vc.hotline.net.au/PowerTel%20CoLocation/host/VMWare%20Cluster/Resources/Hosted%20Customers/$CustomerID"
+$arglist =  "--acceptAllEulas --datastore=""EMC VNX"" --vmFolder=""Hosted Customers/$CustomerID"" --name=""XTMv"" --net:""Network 0=Hotline IT - Public Network"" --net:""Network 1=Hosted Customer - $CustomerID"" http://cdn.watchguard.com/SoftwareCenter/Files/XTM/11_9_1/xtmv_11_9_1.ova vi://vc.hotline.net.au/PowerTel%20CoLocation/host/VMWare%20Cluster/Resources/Hosted%20Customers/$CustomerID"
 Start-Process 'C:\Program Files\VMware\VMware OVF Tool\ovftool.exe' -ArgumentList $arglist -Wait
 
 # Assign customer tag to XTMv
