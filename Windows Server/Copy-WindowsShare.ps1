@@ -68,7 +68,7 @@ function Get-SharePermissions
         Return $myCol 
 } 
 
-
+if (!(Test-Path $DestinationPath)) { New-Item -Type Directory -Path $DestinationPath }
 New-SmbShare -Name $ShareName -Path $DestinationPath
 
 # Get Full Access Users
