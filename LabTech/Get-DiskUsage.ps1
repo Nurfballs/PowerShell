@@ -14,10 +14,10 @@ function MySQLQuery
       [string]$Query
       )
 
-    $MySQLAdminUserName = 'ltro'
-    $MySQLAdminPassword = 'LabTechReadOnly!'
-    $MySQLDatabase = 'labtech'
-    $MySQLHost = 'labtech.hotline.net.au'
+    $MySQLAdminUserName = 'username'
+    $MySQLAdminPassword = 'password'
+    $MySQLDatabase = 'database'
+    $MySQLHost = 'host'
     $ConnectionString = "server=" + $MySQLHost + ";port=3306;uid=" + $MySQLAdminUserName + ";pwd=" + $MySQLAdminPassword + ";database="+$MySQLDatabase
 
     Try {
