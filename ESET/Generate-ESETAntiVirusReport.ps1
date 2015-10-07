@@ -8,10 +8,10 @@ Param(
   [string]$Query
   )
 
-$MySQLAdminUserName = 'ltro'
-$MySQLAdminPassword = 'LabTechReadOnly!'
-$MySQLDatabase = 'labtech'
-$MySQLHost = 'labtech.hotline.net.au'
+$MySQLAdminUserName = 'sqlusername'
+$MySQLAdminPassword = 'sqlpassword!'
+$MySQLDatabase = 'sqldatabase'
+$MySQLHost = 'sqlhost'
 $ConnectionString = "server=" + $MySQLHost + ";port=3306;uid=" + $MySQLAdminUserName + ";pwd=" + $MySQLAdminPassword + ";database="+$MySQLDatabase
 
 Try {
@@ -41,8 +41,6 @@ SELECT software.ComputerID, software.Name, v_computers.Client_Company, v_compute
 FROM software
 JOIN v_computers ON software.ComputerID = v_computers.ComputerID
 AND (software.Name = 'ESET File Security' OR software.Name LIKE '%ESET%Antivirus%')
-AND Client_Company <> 'Magna Systems and Engineering'
-
 "@
 $data = SQLQuery($SQLQuery)
 
@@ -87,7 +85,7 @@ ForEach ($Company in $objResults)
 
 $BodyHTML += "</table>"
 
-$HTML = ConvertTo-Html -Body "$SummaryHTML $BodyHTML" -Head "<h1>Hotline Monthly ESET AntiVirus Licence Report</h1><h2>by Hotline IT PTY LTD</h2><style> h1 {color: #3F4650; text-align: center;} h2 {color: #3F4650; text-align: center; font-size: 0.8em; } body {background-color: #F7F7F7; font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;} table {background-color: white; width: 80%; margin: 5px; padding: 5px; margin-left: auto; margin-right: auto; font-size: 0.8em; border-collapse:collapse;} td,th{font-size: 1em; border: 1px solid #3F4650; padding: 3px 7px 2px 7px; background-color #FFFFFF;} th {font-size: 1.1em; text-align:left; padding-top:5px; padding-bottom: 4px; background-color:#3F4650; color:#FFFFFF; } tr:nth-child(odd) {background-color: #F4F1EA; } </style>"
+$HTML = ConvertTo-Html -Body "$SummaryHTML $BodyHTML" -Head "<h1>Monthly ESET AntiVirus Licence Report</h1><h2>by Casey Mullineaux</h2><style> h1 {color: #3F4650; text-align: center;} h2 {color: #3F4650; text-align: center; font-size: 0.8em; } body {background-color: #F7F7F7; font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;} table {background-color: white; width: 80%; margin: 5px; padding: 5px; margin-left: auto; margin-right: auto; font-size: 0.8em; border-collapse:collapse;} td,th{font-size: 1em; border: 1px solid #3F4650; padding: 3px 7px 2px 7px; background-color #FFFFFF;} th {font-size: 1.1em; text-align:left; padding-top:5px; padding-bottom: 4px; background-color:#3F4650; color:#FFFFFF; } tr:nth-child(odd) {background-color: #F4F1EA; } </style>"
 $HTML | Out-File $env:windir\LTSVC\scripts\ESETAntiVirusSubscriptionReport.html
-Send-MailMessage -from "LabTech Automated Script <labtech@hotlineit.com>" -to "accounts@hotlineit.com; Casey Mullineaux <casey@hotlineit.com>" -subject "Hotine Monthly ESET Antivirus Licence Report" -body "See attached for this months ESET AntiVirus report" -Attachments "$env:windir\LTSVC\scripts\ESETAntiVirusSubscriptionReport.html" -smtpServer mx5.hotline.net.au
+Send-MailMessage -from "from@domain.com" -to "to@domain.com" -subject "Monthly ESET Antivirus Licence Report" -body "See attached for this months ESET AntiVirus report" -Attachments "$env:windir\LTSVC\scripts\ESETAntiVirusSubscriptionReport.html" -smtpServer smtp.domain.com
 
